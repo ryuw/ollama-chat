@@ -40,6 +40,14 @@ button:disabled{opacity:0.6;cursor:default;}
   const promptEl = document.getElementById("prompt");
   const sendBtn = document.getElementById("sendBtn");
 
+  // Track whether we should auto scroll to the latest message
+  let autoScroll = true;
+
+  chatLogEl.addEventListener("scroll", () => {
+    const atBottom = chatLogEl.scrollTop + chatLogEl.clientHeight >= chatLogEl.scrollHeight - 5;
+    autoScroll = atBottom;
+  });
+
   /** Convert basic markdown to HTML */
   function renderMarkdown(text){
     const escaped = text
@@ -63,7 +71,9 @@ button:disabled{opacity:0.6;cursor:default;}
     div.className = "message " + (role === "user" ? "user" : "assistant");
     div.innerHTML = renderMarkdown(text);
     chatLogEl.appendChild(div);
-    chatLogEl.scrollTop = chatLogEl.scrollHeight;
+    if(autoScroll){
+      chatLogEl.scrollTop = chatLogEl.scrollHeight;
+    }
   }
 
   async function sendMessage(){
@@ -80,7 +90,9 @@ button:disabled{opacity:0.6;cursor:default;}
     const assistantDiv = document.createElement("div");
     assistantDiv.className = "message assistant";
     chatLogEl.appendChild(assistantDiv);
-    chatLogEl.scrollTop = chatLogEl.scrollHeight;
+    if(autoScroll){
+      chatLogEl.scrollTop = chatLogEl.scrollHeight;
+    }
 
     try {
       const res = await fetch(endpoint, {
@@ -110,7 +122,9 @@ button:disabled{opacity:0.6;cursor:default;}
           if(data.message && data.message.content){
             assistantText += data.message.content;
             assistantDiv.innerHTML = renderMarkdown(assistantText);
-            chatLogEl.scrollTop = chatLogEl.scrollHeight;
+            if(autoScroll){
+              chatLogEl.scrollTop = chatLogEl.scrollHeight;
+            }
           }
         }
       }
