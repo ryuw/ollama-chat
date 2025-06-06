@@ -6,10 +6,11 @@
 <style>
 body{font-family:system-ui, sans-serif;background:#f6f6f6;margin:0;display:flex;flex-direction:column;height:100vh;}
 header{background:linear-gradient(135deg,#0d6efd,#6610f2);color:#fff;padding:16px 24px;font-size:1.3rem;font-weight:bold;position:sticky;top:0;z-index:1;box-shadow:0 2px 6px rgba(0,0,0,0.08);text-shadow:0 1px 2px rgba(0,0,0,0.2);}
-#chatLog{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;position:relative;}
+#chatWrapper{flex:1;position:relative;overflow:hidden;display:flex;}
+#chatLog{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
 @keyframes auroraMove{0%{background-position:0% 50%;filter:hue-rotate(0deg);}50%{background-position:100% 50%;filter:hue-rotate(60deg);}100%{background-position:0% 50%;filter:hue-rotate(0deg);}}
-#chatLog::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,128,255,0.7),rgba(128,0,128,0.7),rgba(0,255,128,0.7));background-size:200% 200%;animation:auroraMove 20s ease-in-out infinite;pointer-events:none;opacity:0.6;filter:blur(30px);}
-#chatLog::after{content:"";position:absolute;inset:0;background:linear-gradient(60deg,rgba(255,255,255,0.3),rgba(0,0,0,0.1),rgba(255,255,255,0.3));background-size:200% 200%;animation:auroraMove 25s ease-in-out infinite;pointer-events:none;mix-blend-mode:overlay;opacity:0.4;filter:blur(20px);}
+#chatWrapper::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,128,255,0.7),rgba(128,0,128,0.7),rgba(0,255,128,0.7));background-size:200% 200%;animation:auroraMove 20s ease-in-out infinite;pointer-events:none;opacity:0.6;filter:blur(30px);}
+#chatWrapper::after{content:"";position:absolute;inset:0;background:linear-gradient(60deg,rgba(255,255,255,0.3),rgba(0,0,0,0.1),rgba(255,255,255,0.3));background-size:200% 200%;animation:auroraMove 25s ease-in-out infinite;pointer-events:none;mix-blend-mode:overlay;opacity:0.4;filter:blur(20px);}
 .message{max-width:75%;padding:12px 16px;border-radius:8px;white-space:pre-wrap;line-height:1.4;position:relative;}
 .user{align-self:flex-end;background:#0d6efd;color:#fff;border-bottom-right-radius:0;margin-right:2.2em;}
 .assistant{align-self:flex-start;background:#e0e0e0;border-bottom-left-radius:0;margin-left:2.2em;}
@@ -57,7 +58,9 @@ button:disabled{opacity:0.6;cursor:default;}
 </head>
 <body>
 <header>🦙 Ollama Chat (Local)</header>
-<main id="chatLog"></main>
+<div id="chatWrapper">
+  <main id="chatLog"></main>
+</div>
 <div id="inputBar">
 <select id="modelSelect">
   <option value="gemma3:1b-it-qat">gemma3:1b-it-qat</option>
